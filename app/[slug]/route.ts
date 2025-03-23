@@ -5,16 +5,20 @@ import { URI } from "../URL";
 export async function GET(req:NextRequest,{params}:{params:{slug:string}}) {
     const res=await params // it shows no effect of await but on terminal it shows error.
     const shortenedUrl=res.slug
+    const regex = /[^A-Za-z0-9]/;
+    if (regex.test(shortenedUrl)) {
+        return NextResponse.redirect(`${URI}/error`,{status:302})
+    }
     try {
        const originalURL:string|null=await redis.get(shortenedUrl)
     if (originalURL) {
         return NextResponse.redirect(originalURL as string,{status:302})
     } else {
-        return NextResponse.redirect(`${URI}/error`,{status:307})
+        return NextResponse.redirect(`${URI}/error`,{status:302})
     } 
     } catch (error) {
         
-        return NextResponse.redirect(`${URI}/error`,{status:307})
+        return NextResponse.redirect(`${URI}/error`,{status:302})
     }
    
 }
