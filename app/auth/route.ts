@@ -33,6 +33,7 @@ export async function POST(req:NextRequest) {
                     "shortenedUrl":alias
                 }})  
             } catch (error) {
+                console.log(error)
                 return NextResponse.json({"statusText":"Failed to shorten the url"},{status:400})
             }
             
@@ -66,6 +67,7 @@ export async function POST(req:NextRequest) {
     })  
     }
     catch (error) {
+        console.log(error)
         return NextResponse.json({"statusText":"Failed to shorten the url"},{status:400})
      }
       } 

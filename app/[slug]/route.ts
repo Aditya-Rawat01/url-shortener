@@ -17,7 +17,7 @@ export async function GET(req:NextRequest,{params}:{params:{slug:string}}) {
         return NextResponse.redirect(`${URI}/error`,{status:302})
     } 
     } catch (error) {
-        
+        console.log(error)
         return NextResponse.redirect(`${URI}/error`,{status:302})
     }
    

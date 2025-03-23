@@ -1,6 +1,6 @@
 "use server"
 
-import axios, { AxiosError } from "axios"
+import axios from "axios"
 import { URI } from "../URL"
 
 // the post req can be directly moved here but i am using this as proxy/form validation only.
@@ -9,6 +9,7 @@ export async function shortenUrl(url: string, alias:string): Promise<{success:bo
   try {
     new URL(url)
   } catch (e) {
+    console.log(e)
     return {"success":false, "data":"Invalid URL"}
   }
 
