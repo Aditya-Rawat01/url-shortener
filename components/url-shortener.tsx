@@ -52,41 +52,51 @@ export function UrlShortener() {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full relative">
       <CardHeader>
         <CardTitle>URL Shortener</CardTitle>
         <CardDescription>Enter a long URL to get a short, shareable link.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col space-y-2">
-            <div className="flex flex-col gap-3">
-              <div className="relative flex-1 flex">
-                  <Link className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                {/* <label>Original URL</label> */}
-                <Input
-                  type="url"
-                  placeholder="https://example.com/very/long/url/that/needs/shortening"
-                  value={url}
-                  onChange={(e:ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
-                  className="pl-9"
-                  required
-                />
-                
-               <Button type="submit" disabled={isLoading} className="ml-2">
-                {isLoading ? "Shortening..." : "Shorten"}
-              </Button> 
-              </div>
-                <Input
-                  type="alias"
-                  placeholder="Custom Alias (optional): abc123, xyz321 etc"
-                  value={alias}
-                  onChange={(e:ChangeEvent<HTMLInputElement>) => setAlias(e.target.value)}
-                />
-            </div>
+      {isLoading
+      ?
+      <div className="w-full flex flex-col items-center">
+        <div className="loader"></div>
+        <p>Shortening your Url 🤖</p>
+      </div>
+      :
+      <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="flex flex-col space-y-2">
+        <div className="flex flex-col gap-3">
+          <div className="relative flex-1 flex">
+              <Link className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            {/* <label>Original URL</label> */}
+            <Input
+              type="url"
+              placeholder="https://example.com/very/long/url/that/needs/shortening"
+              value={url}
+              onChange={(e:ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
+              className="pl-9"
+              required
+            />
+            
+           <Button type="submit" disabled={isLoading} className="ml-2">
+            {isLoading ? "Shortening..." : "Shorten"}
+          </Button> 
           </div>
-        </form>
+            <Input
+              type="alias"
+              placeholder="Custom Alias (optional): abc123, xyz321 etc"
+              value={alias}
+              onChange={(e:ChangeEvent<HTMLInputElement>) => setAlias(e.target.value)}
+            />
+        </div>
+      </div>
+    </form>
 
+      }
+
+        
         {shortUrl && (
           <div className="mt-6 space-y-2">
             <p className="text-sm font-medium">Your shortened URL:</p>
