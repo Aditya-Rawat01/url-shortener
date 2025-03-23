@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { redis } from "../auth/redisClient";
 import { URI } from "../URL";
 
-export async function GET(req:NextRequest,{params}:{params:{slug:string}}) {
+export async function GET({params}:{params:{slug:string}}) {
     const res=await params // it shows no effect of await but on terminal it shows error.
     const shortenedUrl=res.slug
     const regex = /[^A-Za-z0-9]/;
