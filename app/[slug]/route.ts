@@ -3,8 +3,8 @@ import { redis } from "../auth/redisClient";
 import { URI } from "../URL";
 
 export async function GET(req:NextRequest,{params}:{params:{slug:string}}) {
-    const res=await params // it shows no effect of await but on terminal it shows error.
-    const shortenedUrl=res.slug
+    const res= params.slug
+    const shortenedUrl=res
     const regex = /[^A-Za-z0-9]/;
     if (regex.test(shortenedUrl)) {
         return NextResponse.redirect(`${URI}/error`,{status:302})
