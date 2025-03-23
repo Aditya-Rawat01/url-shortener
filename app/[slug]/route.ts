@@ -6,9 +6,7 @@ interface RouteContext {
       slug: string;
     };
   }
-export async function GET(
-    request: NextRequest, 
-    context: RouteContext) {
+export async function GET(context: RouteContext) {
     const res=(await context).params // it shows no effect of await but on terminal it shows error.
     const shortenedUrl=res.slug
     const regex = /[^A-Za-z0-9]/;
