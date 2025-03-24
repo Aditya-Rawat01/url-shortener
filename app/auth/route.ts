@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import base62 from "base62";
 import { redis } from "./redisClient";
 
-let numberOfShortenedUrl=10000
-let numberOfAliasesUrl=0
-export function GET() {
+
+export async function GET() {
+    const numberOfShortenedUrl=await redis.get("numberOfShortenedUrl") as number
     return NextResponse.json({
         "urlShortened":numberOfShortenedUrl-10000,
-        "aliasURLS":numberOfAliasesUrl
+        
     })
 }
 async function saveUserData({shortenedUrl,original}:{shortenedUrl:string,original:string}) {
@@ -26,7 +26,6 @@ export async function POST(req:NextRequest) {
         else {
             try {
                 await redis.set(alias,original,{ex:604800})
-                numberOfAliasesUrl++
                 return NextResponse.json({
                     "msg":{
                     "original":original,
@@ -50,14 +49,19 @@ export async function POST(req:NextRequest) {
         })
 
     } else {
+      let numberOfShortenedUrl=await redis.get("numberOfShortenedUrl") as number
       const shortenedUrl=base62.encode(numberOfShortenedUrl)
       try {
         await saveUserData({shortenedUrl,original})
     
     if (numberOfShortenedUrl<10000000000) {
         numberOfShortenedUrl++;
+        await redis.set("numberOfShortenedUrl",numberOfShortenedUrl) as number
+
     } else {
         numberOfShortenedUrl=10000
+        await redis.set("numberOfShortenedUrl",numberOfShortenedUrl) as number
+
     }
     return NextResponse.json({
         "msg":{
