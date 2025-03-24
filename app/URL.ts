@@ -1,1 +1,1 @@
-export const URI="https://slimurl.vercel.app/"
+export const URI="https://slimurl.vercel.app"
